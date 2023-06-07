@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
+use Illuminate\Support\Facades\Request;
 
 class TaskController extends Controller
 {
@@ -29,7 +30,7 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        //
+        
     }
 
     /**
@@ -62,5 +63,13 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         //
+    }
+
+    /**
+     * Change the task status
+     */
+    public function changeStatus(Request $request, Task $task)
+    {
+
     }
 }
