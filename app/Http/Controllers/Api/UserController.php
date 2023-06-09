@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\Controller;
 use App\Http\Requests\Api\StoreUserRequest;
 use App\Http\Requests\Api\UpdateUserRequest;
 use App\Models\User;
@@ -17,9 +17,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return response()->json([
-            'users' => $users
-        ]);
+        return $this->success(data: [$users]);
     }
 
     /**
@@ -34,7 +32,10 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return response()->json([], 200);
+        return $this->success(
+            message: 'Usuário criado com sucesso',
+            data: ['id' => $user->id]
+        );
     }
 
     /**
@@ -42,9 +43,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return response()->json([
-            'user' => $user
-        ]);
+        return $this->success(data: [$user]);
     }
 
     /**
@@ -57,7 +56,7 @@ class UserController extends Controller
         $user->role_id = $request->role_id;
         $user->save();
 
-        return response()->json([], 200);
+        return $this->success(message: 'Usuário alterado com sucesso');
     }
 
     /**
@@ -67,6 +66,6 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return response()->json([], 200);
+        return $this->success(message: 'Usuário excluído com sucesso');
     }
 }

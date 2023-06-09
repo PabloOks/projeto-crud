@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\Controller;
 use App\Http\Requests\Api\StoreRoleRequest;
 use App\Http\Requests\Api\UpdateRoleRequest;
 use App\Models\Role;
@@ -17,9 +17,7 @@ class RoleController extends Controller
     {
         $roles = Role::all();
 
-        return response()->json([
-            'roles' => $roles
-        ]);
+        return $this->success(data: [$roles]);
     }
 
     /**
@@ -32,7 +30,10 @@ class RoleController extends Controller
         $role->description = $request->description ?? null;
         $role->save();
 
-        return response()->json([], 200);
+        return $this->success(
+            message: 'Grupo criado com sucesso',
+            data: ['id' => $role->id]
+        );
     }
 
     /**
@@ -40,9 +41,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        return response()->json([
-            'role' => $role
-        ]);
+        return $this->success(data: [$role]);
     }
 
     /**
@@ -54,7 +53,7 @@ class RoleController extends Controller
         $role->description = $request->description ?? null;
         $role->save();
 
-        return response()->json([], 200);
+        return $this->success(message: 'Dados alterados com sucesso');
     }
 
     /**
@@ -64,6 +63,6 @@ class RoleController extends Controller
     {
         $role->delete();
 
-        return response()->json([], 200);
+        return $this->success(message: 'Grupo excluído com sucesso');
     }
 }

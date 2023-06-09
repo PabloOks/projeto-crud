@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -20,6 +21,14 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::apiResource('users', UserController::class);
-Route::apiResource('tasks', TaskController::class);
-Route::patch('tasks/{task}/changeStatus', [TaskController::class, 'changeStatus'])->name('tasks.changeStatus');
+
+Route::post('login', [LoginController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+  Route::apiResource('users', UserController::class);
+  Route::apiResource('tasks', TaskController::class);
+  Route::patch('tasks/{task}/change-status', [TaskController::class, 'changeStatus']);
+  Route::post('tasks/{task}/delegate', [TaskController::class, 'delegateMembers']);
+
+  Route::post('logout', [LoginController::class, 'logout']);
+});

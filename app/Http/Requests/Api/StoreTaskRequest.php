@@ -11,7 +11,7 @@ class StoreTaskRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,17 @@ class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string'],
+            'description' => ['string'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Informe o nome da tarefa',
+            'name.string' => 'O nome da tarefa informado não está em um formato válido',
+            'description.string' => 'A descrição informada não está em um formato válido',
         ];
     }
 }
